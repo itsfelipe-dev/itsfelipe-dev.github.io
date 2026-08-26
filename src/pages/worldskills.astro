@@ -1,0 +1,520 @@
+---
+import { getImage, Image } from "astro:assets";
+import Header from "../components/Header.vue";
+import Footer from "../components/Footer.vue";
+import GoogleTranslate from "../components/GoogleTranslate.astro";
+import "../styles/tokens.css";
+import "../styles/global.css";
+import wsArena from "../assets/worldskills/53989949574_bc9d6a7d80_w.jpg";
+import wsRoad from "../assets/worldskills/20240908_185848.jpg";
+import wsHome from "../assets/worldskills/IMG-20241004-WA0018.jpg";
+import wsHomeTeam from "../assets/worldskills/IMG-20241004-WA0021.jpg";
+import wsHomePortrait from "../assets/worldskills/IMG-20241004-WA0023.jpg";
+import wsCelebration from "../assets/worldskills/IMG-20241007-WA0002.jpg";
+import wsMedal from "../assets/worldskills/Picsart_24-10-07_12-17-08-071.jpg";
+import wsPosterFrame from "../assets/worldskills/poster-andres.jpg";
+import wsSenaPosterFrame from "../assets/worldskills/poster-sena.jpg";
+
+const gallery = [
+	{ src: wsArena, caption: "the arena · official photo" },
+	{ src: wsRoad, caption: "the road to Lyon" },
+	{ src: wsHome, caption: "back home" },
+	{ src: wsHomeTeam, caption: "back home · team" },
+	{ src: wsHomePortrait, caption: "back home · portrait" },
+	{ src: wsCelebration, caption: "the celebration" },
+	{ src: wsMedal, caption: "the medal" },
+];
+
+const facts = [
+	{ key: "rank", value: "#1 Colombia" },
+	{ key: "event", value: "WorldSkills Lyon 2024" },
+	{ key: "discipline", value: "Cybersecurity" },
+	{ key: "field", value: "~70 countries · ~60 skills" },
+	{ key: "audience", value: "250k+ visitors" },
+	{ key: "edition", value: "47th · Sept 10–15, 2024" },
+];
+
+const coverage = [
+	{
+		label: "SENA · official news",
+		title: "33 aprendices representarán a Colombia en WorldSkills Francia",
+		meta: "Jul 2024 — the 33 qualifiers, Cybersecurity included",
+		href: "https://www.sena.edu.co/es-co/Noticias/Paginas/noticia.aspx?IdNoticia=7378",
+	},
+	{
+		label: "SENA · official news",
+		title: "WorldSkills: el SENA enciende la llama de los “Juegos Olímpicos” de los aprendices",
+		meta: "Jul 2024 — the national selection in Barranquilla",
+		href: "https://www.sena.edu.co/es-co/Noticias/Paginas/noticia.aspx?IdNoticia=7353",
+	},
+	{
+		label: "Facebook · video",
+		title: "Competition coverage",
+		meta: "video",
+		href: "https://www.facebook.com/watch/?v=1551616472097032",
+	},
+	{
+		label: "Facebook · video",
+		title: "Competition coverage",
+		meta: "video",
+		href: "https://www.facebook.com/watch/?v=428921262940593",
+	},
+	{
+		label: "YouTube · livestream",
+		title: "WorldSkills Lyon 2024 — closing ceremony",
+		meta: "live stream",
+		href: "https://www.youtube.com/live/J0o8zFG9Es8?si=oRXjVsYYBMyovY6N&t=1264",
+	},
+];
+
+const posterAndres = (await getImage({ src: wsPosterFrame, width: 1280, format: "webp" })).src;
+const posterSena = (await getImage({ src: wsSenaPosterFrame, width: 1280, format: "webp" })).src;
+
+const NAME = "Andres Felipe Orjuela Arias";
+const awardIcon =
+	'<circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>';
+const playIcon =
+	'<polyline points="23 18 13.5 18 11 10 7 18 1 18"/><polyline points="17 18 13.5 18 11 10 7 18 1 18"/>';
+const imageIcon =
+	'<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="m21 15-3.086-3.086a2 2 0 0 0-2.828 0L6 21"/>';
+const newsIcon =
+	'<path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8a2 2 0 0 0-2 2v16a2 2 0 0 1-4 0V5"/>';
+---
+
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>{NAME} — WorldSkills Lyon 2024 · The Full Story</title>
+		<meta
+			name="description"
+			content="What is WorldSkills? The Olympics of skills. Andrés Felipe Orjuela Arias won Colombia's Cybersecurity seat at WorldSkills Colombia 2024 and represented the country at the 47th WorldSkills Competition in Lyon, France."
+		/>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+			rel="stylesheet"
+		/>
+	</head>
+	<body>
+		<Header client:load home={false} />
+		<GoogleTranslate />
+
+		<main>
+			<section class="section section-animate" id="top">
+				<div class="wrap">
+					<div class="masthead">
+						<span class="masthead-icon" aria-hidden="true">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={awardIcon}></svg>
+						</span>
+						<div class="masthead-copy">
+							<h1 class="masthead-title">The Medal</h1>
+							<p class="masthead-sub">worldskills lyon 2024 · the full record</p>
+						</div>
+					</div>
+
+					<div class="ws-intro">
+						<div class="ws-copy">
+							<h2 class="ws-h2">What is WorldSkills?</h2>
+							<p class="ws-lede">
+								WorldSkills is the <strong>“Olympics of skills”</strong> — the world’s
+								largest skills championship, held every two years since 1950. Up to
+								1,500 competitors from 65+ countries and regions gather in a single
+								arena to compete across ~60 trades, from cybersecurity to cloud,
+								welding to fashion. The 47th edition ran 10–15 September 2024 at
+								Eurexpo, Lyon, in front of more than <strong>250,000 visitors</strong>.
+							</p>
+							<p class="ws-lede">
+								Colombia’s SENA has fielded competitors for 15 years. Andrés earned
+								the country’s <strong>Cybersecurity seat</strong> at the national
+								selection in Barranquilla (July 2024), took it to the world stage in
+								Lyon, and returned to mentor the next generation of competitors.
+							</p>
+						</div>
+
+						<dl class="ws-facts">
+							{facts.map((f) => (
+								<div class="ws-fact">
+									<dt class="datalabel">{f.key}</dt>
+									<dd class="ws-fact-value">{f.value}</dd>
+								</div>
+							))}
+						</dl>
+					</div>
+				</div>
+			</section>
+
+			<section class="section section-animate">
+				<div class="wrap">
+					<div class="masthead">
+						<span class="masthead-icon" aria-hidden="true">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={playIcon}></svg>
+						</span>
+						<div class="masthead-copy">
+							<h2 class="masthead-title">On tape</h2>
+							<p class="masthead-sub">the record in motion</p>
+						</div>
+					</div>
+
+					<div class="ws-videos">
+						<figure class="ws-video">
+							<video
+								class="ws-video-el"
+								controls
+								playsinline
+								preload="metadata"
+								poster={posterAndres}
+								src="/worldskills/video_andres_worldskills.mp4"
+							></video>
+							<figcaption class="datalabel ws-fig">fig · the record on tape</figcaption>
+						</figure>
+
+						<figure class="ws-video">
+							<video
+								class="ws-video-el"
+								controls
+								playsinline
+								preload="metadata"
+								poster={posterSena}
+								src="/worldskills/video_sena_worldskills.mp4"
+							></video>
+							<figcaption class="datalabel ws-fig">fig · sena coverage</figcaption>
+						</figure>
+					</div>
+				</div>
+			</section>
+
+			<section class="section section-animate">
+				<div class="wrap">
+					<div class="masthead">
+						<span class="masthead-icon" aria-hidden="true">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={imageIcon}></svg>
+						</span>
+						<div class="masthead-copy">
+							<h2 class="masthead-title">The gallery</h2>
+							<p class="masthead-sub">lyon & back, in frames</p>
+						</div>
+					</div>
+
+					<div class="ws-gallery">
+						{gallery.map((g) => (
+							<figure class="ws-photo">
+								<Image
+									class="ws-photo-img"
+									src={g.src}
+									alt={`WorldSkills Lyon 2024 — ${g.caption}`}
+									widths={[400, 640, 880, 1200]}
+									sizes="(max-width: 768px) 100vw, 50vw"
+									loading="lazy"
+									decoding="async"
+								/>
+								<figcaption class="ws-photo-caption">
+									<span class="datalabel">{g.caption}</span>
+								</figcaption>
+							</figure>
+						))}
+					</div>
+				</div>
+			</section>
+
+			<section class="section section-animate" id="coverage">
+				<div class="wrap">
+					<div class="masthead">
+						<span class="masthead-icon" aria-hidden="true">
+							<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" set:html={newsIcon}></svg>
+						</span>
+						<div class="masthead-copy">
+							<h2 class="masthead-title">Press & media</h2>
+							<p class="masthead-sub">the receipts</p>
+						</div>
+					</div>
+
+					<ul class="ws-coverage">
+						{coverage.map((c) => (
+							<li class="ws-coverage-item">
+								<a href={c.href} target="_blank" rel="noopener noreferrer" class="ws-coverage-link">
+									<span class="ws-coverage-body">
+										<span class="ws-coverage-meta">{c.label}</span>
+										<span class="ws-coverage-title">{c.title}</span>
+										<span class="ws-coverage-note">{c.meta}</span>
+									</span>
+									<svg class="ws-coverage-ext" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+										<path d="M7 17 17 7M7 7h10v10" />
+									</svg>
+								</a>
+							</li>
+						))}
+					</ul>
+
+					<a href="/" class="btn btn-secondary ws-back">
+						<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+							<line x1="19" y1="12" x2="5" y2="12" />
+							<polyline points="12 19 5 12 12 5" />
+						</svg>
+						Back to the portfolio
+					</a>
+				</div>
+			</section>
+		</main>
+
+		<Footer base="/" />
+
+		<script>
+			const observer = new IntersectionObserver(
+				(entries) => {
+					entries.forEach((entry) => {
+						if (entry.isIntersecting) {
+							requestAnimationFrame(() => {
+								entry.target.classList.add("revealed");
+							});
+							observer.unobserve(entry.target);
+						}
+					});
+				},
+				{
+					threshold: 0.12,
+					rootMargin: "0px 0px -40px 0px",
+				},
+			);
+
+			document
+				.querySelectorAll(".reveal, .section-animate")
+				.forEach((el) => {
+					observer.observe(el);
+				});
+		</script>
+	</body>
+</html>
+
+<style is:global>
+	/* ---- intro ---- */
+
+	.ws-intro {
+		display: grid;
+		grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
+		gap: clamp(24px, 4vw, 48px);
+		align-items: start;
+		margin-top: clamp(36px, 5vw, 52px);
+	}
+
+	.ws-copy {
+		display: grid;
+		gap: 14px;
+	}
+
+	.ws-h2 {
+		font-family: var(--font-display);
+		font-size: clamp(20px, 2.4vw, 26px);
+		font-weight: 800;
+		letter-spacing: -0.01em;
+		color: var(--text-0);
+		margin: 0;
+	}
+
+	.ws-lede {
+		margin: 0;
+		font-size: clamp(15px, 1.8vw, 18px);
+		line-height: 1.65;
+		color: var(--text-1);
+		max-width: 66ch;
+	}
+
+	.ws-lede strong {
+		color: var(--text-0);
+		font-weight: 700;
+	}
+
+	.ws-facts {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		border: 1px solid var(--line-strong);
+		border-radius: var(--radius-lg);
+		background: var(--ink-2);
+		overflow: hidden;
+	}
+
+	.ws-fact {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		gap: 16px;
+		padding: 11px 16px;
+	}
+
+	.ws-fact + .ws-fact {
+		border-top: 1px solid var(--line);
+	}
+
+	.ws-fact-value {
+		margin: 0;
+		font-family: var(--font-mono);
+		font-size: 12.5px;
+		color: var(--text-0);
+		text-align: right;
+	}
+
+	/* ---- video ---- */
+
+	.ws-videos {
+		margin-top: clamp(36px, 5vw, 52px);
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 1px;
+		background: var(--line);
+		border: 1px solid var(--line);
+		border-radius: var(--radius-lg);
+		overflow: hidden;
+	}
+
+	.ws-video {
+		margin: 0;
+		background: var(--ink-1);
+		padding: 12px;
+		display: grid;
+		gap: 12px;
+	}
+
+	.ws-video-el {
+		width: 100%;
+		aspect-ratio: 16 / 9;
+		display: block;
+		background: #000;
+		border: 1px solid var(--line-strong);
+		border-radius: var(--radius-lg);
+		box-shadow: var(--shadow-medium);
+	}
+
+	.ws-fig {
+		justify-self: end;
+	}
+
+	/* ---- gallery ---- */
+
+	.ws-gallery {
+		margin-top: clamp(36px, 5vw, 52px);
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 1px;
+		background: var(--line);
+		border: 1px solid var(--line);
+		border-radius: var(--radius-lg);
+		overflow: hidden;
+	}
+
+	.ws-photo {
+		margin: 0;
+		background: var(--ink-1);
+		padding: 12px;
+		display: grid;
+		gap: 10px;
+	}
+
+	.ws-photo-img {
+		width: 100%;
+		height: auto;
+		aspect-ratio: 4 / 3;
+		object-fit: cover;
+		border: 1px solid var(--line);
+		border-radius: var(--radius-md);
+		filter: grayscale(0.25) contrast(1.02);
+		transition: filter var(--dur-fast), transform var(--dur-fast) var(--ease-elastic);
+	}
+
+	.ws-photo:hover .ws-photo-img {
+		filter: grayscale(0);
+		transform: scale(1.015);
+	}
+
+	.ws-photo-caption {
+		text-align: center;
+	}
+
+	/* ---- coverage ---- */
+
+	.ws-coverage {
+		margin: clamp(36px, 5vw, 52px) 0 0;
+		padding: 0;
+		list-style: none;
+		border: 1px solid var(--line);
+		border-radius: var(--radius-lg);
+		background: var(--ink-1);
+		overflow: hidden;
+	}
+
+	.ws-coverage-item + .ws-coverage-item {
+		border-top: 1px solid var(--line);
+	}
+
+	.ws-coverage-link {
+		display: flex;
+		align-items: center;
+		gap: 16px;
+		padding: 18px 20px;
+		transition: background var(--dur-fast);
+	}
+
+	.ws-coverage-link:hover {
+		background: var(--ink-2);
+	}
+
+	.ws-coverage-body {
+		display: grid;
+		gap: 3px;
+		min-width: 0;
+	}
+
+	.ws-coverage-meta {
+		font-family: var(--font-mono);
+		font-size: 10.5px;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+		color: var(--accent-warm);
+	}
+
+	.ws-coverage-title {
+		font-family: var(--font-display);
+		font-size: 15px;
+		font-weight: 600;
+		color: var(--text-0);
+		line-height: 1.35;
+	}
+
+	.ws-coverage-note {
+		font-size: 13px;
+		color: var(--text-3);
+	}
+
+	.ws-coverage-ext {
+		width: 16px;
+		height: 16px;
+		margin-left: auto;
+		flex-shrink: 0;
+		color: var(--text-3);
+		transition: color var(--dur-fast), transform var(--dur-fast) var(--ease-out);
+	}
+
+	.ws-coverage-link:hover .ws-coverage-ext {
+		color: var(--text-0);
+		transform: translate(2px, -2px);
+	}
+
+	.ws-back {
+		margin-top: clamp(28px, 4vw, 44px);
+	}
+
+	@media (max-width: 900px) {
+		.ws-intro {
+			grid-template-columns: 1fr;
+		}
+
+		.ws-gallery {
+			grid-template-columns: 1fr;
+		}
+
+		.ws-videos {
+			grid-template-columns: 1fr;
+		}
+	}
+</style>
