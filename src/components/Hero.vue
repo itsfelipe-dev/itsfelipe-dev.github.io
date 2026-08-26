@@ -66,7 +66,7 @@ onMounted(() => {
           <div class="plate-frame">
             <img
               class="plate-img"
-              src="/andres-workspace.svg"
+              src="/worldskills/53989949574_bc9d6a7d80_w.jpg"
               alt="Andres Orjuela working from his data engineering workspace"
               width="560"
               height="640"
