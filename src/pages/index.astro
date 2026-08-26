@@ -1,34 +1,867 @@
 ---
-// Component Imports
-import Counter from '../components/Counter.vue';
+import { getImage } from "astro:assets";
+import Hero from "../components/Hero.vue";
+import PipelineShowcase from "../components/PipelineShowcase.vue";
+import ExperienceTimeline from "../components/ExperienceTimeline.vue";
+import ArchitectureDecisions from "../components/ArchitectureDecisions.vue";
+import SkillsMatrix from "../components/SkillsMatrix.vue";
+import Certifications from "../components/Certifications.vue";
+import Education from "../components/Education.vue";
+import Awards from "../components/Awards.vue";
+import Projects from "../components/Projects.vue";
+import FieldNotes from "../components/FieldNotes.vue";
+import WorldSkills from "../components/WorldSkills.vue";
+import WakatimeStats from "../components/WakatimeStats.vue";
+import Contact from "../components/Contact.vue";
+import Header from "../components/Header.vue";
+import Footer from "../components/Footer.vue";
+import GoogleTranslate from "../components/GoogleTranslate.astro";
+import "../styles/tokens.css";
+import "../styles/global.css";
+import wsArena from "../assets/worldskills/53989949574_bc9d6a7d80_w.jpg";
+import wsRoad from "../assets/worldskills/20240908_185848.jpg";
+import wsHome from "../assets/worldskills/IMG-20241004-WA0018.jpg";
+import wsHomeTeam from "../assets/worldskills/IMG-20241004-WA0021.jpg";
+import wsHomePortrait from "../assets/worldskills/IMG-20241004-WA0023.jpg";
+import wsCelebration from "../assets/worldskills/IMG-20241007-WA0002.jpg";
+import wsMedal from "../assets/worldskills/Picsart_24-10-07_12-17-08-071.jpg";
+import wsPosterFrame from "../assets/worldskills/poster-andres.jpg";
 
-// Full Astro Component Syntax:
-// https://docs.astro.build/basics/astro-components/
+const wsImages = [
+	{ src: wsArena, caption: "the arena · official" },
+	{ src: wsRoad, caption: "the road to Lyon" },
+	{ src: wsHome, caption: "back home" },
+	{ src: wsHomeTeam, caption: "back home · team" },
+	{ src: wsHomePortrait, caption: "back home · portrait" },
+	{ src: wsCelebration, caption: "the celebration" },
+	{ src: wsMedal, caption: "the medal" },
+];
+
+async function buildGallery() {
+	const widths = [400, 640, 880];
+	return Promise.all(
+		wsImages.map(async (g) => {
+			const variants = await Promise.all(
+				widths.map((w) =>
+					getImage({
+						src: g.src,
+						width: w,
+						format: "webp",
+						fit: "cover",
+					}),
+				),
+			);
+			const srcset = variants
+				.map((v) => `${v.src} ${v.attributes.width}w`)
+				.join(", ");
+			const biggest = variants[variants.length - 1];
+			return { caption: g.caption, src: biggest.src, srcset };
+		}),
+	);
+}
+
+const wsGallery = await buildGallery();
+const wsPoster = (
+	await getImage({ src: wsPosterFrame, width: 1280, format: "webp" })
+).src;
+
+const NAME = "Andres Felipe Orjuela Arias";
+const RESUME_URL = "/andres-orjuela-resume.pdf";
+const GITHUB_URL = "https://github.com/itsfelipe-dev";
+const LINKEDIN_URL = "https://linkedin.com/in/itsfelipe";
+const EMAIL = "itsfelipe.dev@gmail.com";
+
+const roles = [
+	{
+		company: "Inetum",
+		position: "Data Engineer",
+		location: "Bogotá, Colombia - Remote",
+		period: "Mar 2026 - Present",
+		current: true,
+		companyInitials: "IN",
+		impact: [
+			"Migrating legacy databases and building pipelines mostly from scratch based on customer necessities and business requirements, designing distributed ETL with <strong>AWS Glue + PySpark</strong> and Control-M into an AWS S3 data lake.",
+			"Writing robust Python code following <strong>PEP 8 standards</strong> with CI/CD integration, modular GitHub code structure, and Pytest coverage for all class-based functions.",
+			"Enforcing <strong>predefined schemas, table partitioning, and batch loading</strong> on writes, while monitoring and debugging ETL pipelines using <strong>AWS CloudWatch</strong>.",
+			"Building <strong>PySpark data models</strong> from scratch to turn custom business logic into structured <strong>Silver/Gold/Platinum</strong> layers for strategic analytics over AWS Athena + S3.",
+		],
+	},
+	{
+		company: "Independent AI & Data Consultant",
+		position: "Data & AI Consultant",
+		location: "Remote",
+		period: "Nov 2025 - Feb 2026",
+		current: false,
+		companyInitials: "AI",
+		impact: [
+			"Advise clients on <strong>ETL pipeline design and automation</strong>, applying Python and SQL to streamline reporting workflows.",
+			"Designed automated data processes that measurably improved <strong>operational efficiency</strong> for business stakeholders.",
+		],
+	},
+	{
+		company: "GJX",
+		position: "Data Engineer - AI & Cloud Solutions",
+		location: "Bogotá, Colombia - Hybrid",
+		period: "Feb 2025 - Nov 2025",
+		current: false,
+		companyInitials: "GJ",
+		impact: [
+			"Led end-to-end delivery of <strong>AI-powered data pipelines on Azure</strong> for a <strong>life-sciences / pharma</strong> client, integrating LLMs and RAG to sharpen response accuracy in production.",
+			"Designed the ETL and data models <strong>from scratch</strong> - architecture diagrams, schemas, and transformation layers - turning high-volume structured and unstructured data into decisions.",
+			"Owned solution architecture across the full lifecycle - requirements, design, deployment, monitoring - and presented it to execs.",
+		],
+	},
+	{
+		company: "SENA - WorldSkills Lyon 2024",
+		position: "Cybersecurity Competitor & Technical Mentor",
+		location: "Bogotá, Colombia",
+		period: "May 2024 - Dec 2024",
+		current: false,
+		companyInitials: "WS",
+		impact: [
+			"Ranked <strong>#1 Cybersecurity competitor in Colombia</strong>, representing the country at WorldSkills 2024 in Lyon, France.",
+			"Mentored junior competitors in secure coding, network defense, and incident response methodologies.",
+		],
+	},
+	{
+		company: "Bluetab (IBM)",
+		position: "Big Data Developer - ETL",
+		location: "Bogotá, Colombia - Remote",
+		period: "Apr 2023 - May 2024",
+		current: false,
+		companyInitials: "BT",
+		impact: [
+			"Built ELT pipelines on <strong>AWS Glue + PySpark</strong> and on-prem Hadoop/Control-M for <strong>banking and pharma</strong> clients, processing large volumes of regulated data.",
+			"Used <strong>Apache Hudi</strong> tables to manage partitioned, upserting data on the lake without full rewrites.",
+			"Designed data models and pipeline diagrams from scratch, turning raw sources into analytics-ready schemas for BI teams.",
+			"Automated REST API extraction and operational workflows with concurrent Python and Bash automation.",
+			"Enforced data-quality standards with PySpark/Pandas under strict data-governance and risk-appetite protocols.",
+		],
+	},
+	{
+		company: "2NV",
+		position: "Big Data Consultant",
+		location: "Bogotá, Colombia - Remote",
+		period: "Feb 2022 - Apr 2023",
+		current: false,
+		companyInitials: "2N",
+		impact: [
+			"Built multi-source ingestion with Apache NiFi (SQL Server, Oracle, SFTP, S3) into HDFS in <strong>Parquet and Avro</strong> for Hive and Impala.",
+			"Migrated critical legacy SQL processes to PySpark, boosting scalability and query efficiency.",
+			"Automated daily reports and scheduled delivery with <strong>Apache Oozie</strong>, Python, and crontab.",
+			"Optimized Hive/Impala query performance, reducing latency for Power BI analytical reporting.",
+			"Designed Hive/Impala schemas optimized for executive dashboards.",
+		],
+	},
+];
+
+const skillGroups = [
+	{
+		label: "Languages",
+		accent: "emerald" as const,
+		skills: [
+			{ name: "Python", level: 4 },
+			{ name: "SQL", level: 4 },
+			{ name: "PySpark", level: 4 },
+			{ name: "Bash", level: 3 },
+			{ name: "Pytest", level: 4 },
+			{ name: "API REST", level: 3 },
+		],
+	},
+	{
+		label: "Distributed & Lakehouse",
+		accent: "emerald" as const,
+		skills: [
+			{ name: "Apache Spark", level: 4 },
+			{ name: "Delta Lake", level: 3 },
+			{ name: "Apache Hudi", level: 3 },
+			{ name: "Hadoop · Hive · Impala", level: 3 },
+			{ name: "HDFS · Parquet", level: 3 },
+		],
+	},
+	{
+		label: "Data & Schema Modeling",
+		accent: "cyan" as const,
+		skills: [
+			{ name: "Medallion Architecture", level: 4 },
+			{ name: "Data Modeling", level: 4 },
+			{ name: "Schema Design", level: 4 },
+			{ name: "Architecture Diagrams", level: 3 },
+			{ name: "ERDs", level: 3 },
+		],
+	},
+	{
+		label: "Orchestration & Ingestion",
+		accent: "cyan" as const,
+		skills: [
+			{ name: "Apache Airflow", level: 2 },
+			{ name: "Apache NiFi", level: 3 },
+			{ name: "AWS Glue", level: 4 },
+			{ name: "Control-M", level: 4 },
+			{ name: "Apache Oozie", level: 3 },
+		],
+	},
+	{
+		label: "Cloud Platforms",
+		accent: "cyan" as const,
+		skills: [
+			{ name: "AWS S3", level: 4 },
+			{ name: "AWS Athena", level: 4 },
+			{ name: "AWS EC2", level: 3 },
+			{ name: "Azure Storage", level: 3 },
+			{ name: "Azure OpenAI", level: 3 },
+			{ name: "Azure Container Instances", level: 3 },
+		],
+	},
+	{
+		label: "AI & RAG",
+		accent: "violet" as const,
+		skills: [
+			{ name: "RAG", level: 3 },
+			{ name: "LLMs", level: 4 },
+			{ name: "LangChain", level: 3 },
+			{ name: "LangGraph", level: 3 },
+			{ name: "Azure AI Agents", level: 3 },
+		],
+	},
+	{
+		label: "Data & DevOps",
+		accent: "violet" as const,
+		skills: [
+			{ name: "Git", level: 4 },
+			{ name: "Power BI", level: 3 },
+			{ name: "Tableau", level: 3 },
+			{ name: "PostgreSQL", level: 3 },
+			{ name: "Docker", level: 3 },
+			{ name: "Terraform", level: 2 },
+			{ name: "Jenkins", level: 2 },
+		],
+	},
+	{
+		label: "Data Quality & Delivery",
+		accent: "cyan" as const,
+		skills: [
+			{ name: "Data Quality", level: 4 },
+			{ name: "Pandas", level: 3 },
+			{ name: "Scrum & Agile", level: 4 },
+			{ name: "Data Governance", level: 3 },
+			{ name: "Stakeholder Management", level: 3 },
+			{ name: "Executive Reporting", level: 3 },
+		],
+	},
+];
+
+const certifications = [
+	{
+		title: "Azure AI Engineer Associate",
+		issuer: "Microsoft",
+		period: "Jun 2025 - Jun 2026",
+		accent: "violet" as const,
+	},
+	{
+		title: "Scrum Fundamentals Certified (SFC)",
+		issuer: "SCRUMstudy",
+		period: "May 2024",
+		accent: "cyan" as const,
+	},
+	{
+		title: "SQL Intermediate Certification",
+		issuer: "HackerRank",
+		period: "Mar 2024",
+		accent: "emerald" as const,
+	},
+	{
+		title: "Complete Practical Apache Airflow Course",
+		issuer: "Udemy",
+		period: "Certificate",
+		accent: "cyan" as const,
+	},
+	{
+		title: "International Seminar on AI and Governance",
+		issuer: "University of Chile",
+		period: "International Mission · 2 weeks",
+		accent: "violet" as const,
+	},
+	{
+		title: "Secure Development",
+		issuer: "Net4skills",
+		period: "Apr 2026 - Apr 2028",
+		accent: "emerald" as const,
+	},
+];
+
+const education = [
+	{
+		degree: "B.Eng. Software Engineering",
+		school: "Ucompensar",
+		place: "Bogotá, Colombia",
+		period: "2023 - 2026",
+		note: "in progress",
+	},
+	{
+		degree: "International Academic Mission · AI & Governance",
+		school: "Universidad de Chile",
+		place: "Santiago, Chile",
+		period: "International Mission · 2 weeks",
+		note: "international seminar",
+	},
+	{
+		degree: "Associate · Information Systems Analysis & Development",
+		school: "SENA",
+		place: "Bogotá, Colombia",
+		period: "2021 - 2023",
+	},
+	{
+		degree: "Vocational Technician · Computer Systems",
+		school: "SENA",
+		place: "Bogotá, Colombia",
+		period: "2019 - 2020",
+	},
+];
+
+const languages = "Spanish (native) · English (B2+ · professional working)";
+
+const awards = [
+	{
+		rank: "International competitor",
+		title: "WorldSkills 2024 · Cybersecurity",
+		detail: "Represented Colombia at the international competition in Lyon, France - one of the most prestigious technical skills competitions in the world.",
+		place: "Lyon, France",
+		period: "Sep 2024",
+	},
+	{
+		rank: "1st place · National Final",
+		title: "WorldSkills Colombia · Cybersecurity",
+		detail: "Won the national championship and qualified as Colombia's official representative for WorldSkills 2024.",
+		place: "Colombia",
+		period: "Jul 2024",
+	},
+	{
+		rank: "1st place · National Semifinal",
+		title: "WorldSkills Colombia · Cybersecurity",
+		detail: "Took first place in the national competition, advancing to the final championship.",
+		place: "Colombia",
+		period: "Nov 2023",
+	},
+	{
+		rank: "1st place · Regional",
+		title: "WorldSkills Bogotá · Cybersecurity",
+		detail: "Took first place in the Distrito Capital regional competition, advancing to the national championship.",
+		place: "Bogotá",
+		period: "May 2023",
+	},
+	{
+		rank: "1st place · National",
+		title: "SENASOFT 2021 · Cybersecurity",
+		detail: "Won the SENASOFT national cybersecurity championship - the start of the run.",
+		place: "Colombia",
+		period: "Oct 2021",
+	},
+];
+
+const caseStudies = [
+	{
+		title: "News Data Emotion Analyzer ELT",
+		timeframe: "2024 - Present",
+		summary:
+			"A lakehouse platform for multi-source news ingestion, built to produce ML-ready datasets for sentiment and emotion analysis.",
+		architecture: [
+			"Multi-source ingestion into a Bronze landing layer",
+			"PySpark + Delta Lake transformations (Bronze → Silver → Gold)",
+			"Airflow DAGs orchestrate and monitor every stage",
+			"Gold layer exposes ML-ready features for downstream models",
+		],
+		outcome:
+			"Medallion architecture on AWS raised data quality and analytical performance for emotion-analysis workloads.",
+		stack: ["PySpark", "Delta Lake", "Airflow", "AWS"],
+		link: "https://github.com/itsfelipe-dev/NewsDataEmotionAnalyzerELT",
+		linkLabel: "View on GitHub",
+		accent: "emerald" as const,
+		featured: true,
+	},
+	{
+		title: "AI-Powered Pipelines with RAG",
+		timeframe: "GJX · 2025",
+		summary:
+			"Production LLM pipelines on Azure for a life-sciences / pharma client, grounding model answers in governed company data instead of raw model memory.",
+		architecture: [
+			"Designed the ETL, data model, and architecture diagrams from scratch",
+			"Structured & unstructured ingestion via Python/Pandas",
+			"Retrieval-Augmented Generation layer on Azure OpenAI",
+			"LangChain/LangGraph orchestration of agent workflows",
+			"Monitoring and iteration in production",
+		],
+		outcome:
+			"Improved response accuracy and relevance for business-facing AI features, bridged for both technical and exec audiences.",
+		stack: ["Azure OpenAI", "LangChain", "LangGraph", "Python"],
+		accent: "violet" as const,
+		featured: true,
+	},
+	{
+		title: "Banking ETL Modernization",
+		timeframe: "Bluetab (IBM) · 2023–24",
+		summary:
+			"Migrated legacy SQL data pipelines to PySpark for a regulated banking client, under strict governance and risk-appetite rules - alongside pharma data work in the same role.",
+		architecture: [
+			"Designed the target data model and medallion layers before migrating",
+			"AWS Glue + PySpark ELT jobs replacing SQL scripts",
+			"On-prem Hadoop/Spark jobs scheduled via Control-M",
+			"Data-quality checks enforced at every pipeline stage",
+			"Git/Bitbucket + Jenkins CI/CD for full-lifecycle delivery",
+		],
+		outcome:
+			"Processing time cut by 50%, with ingestion 70% faster and team operational workload reduced by half.",
+		stack: ["AWS Glue", "PySpark", "Hadoop", "Control-M"],
+		accent: "cyan" as const,
+		featured: false,
+	},
+];
+
+const contactLinks = [
+	{ label: "LinkedIn", href: LINKEDIN_URL, value: "@itsfelipe", icon: "in" },
+	{ label: "GitHub", href: GITHUB_URL, value: "itsfelipe-dev", icon: "gh" },
+];
+const sectionIcons = {
+	activity: '<polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>',
+	route: '<circle cx="6" cy="19" r="3"/><path d="M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15"/><circle cx="18" cy="5" r="3"/>',
+	cpu: '<rect x="4" y="4" width="16" height="16" rx="2"/><rect x="9" y="9" width="6" height="6"/><path d="M15 2v2M15 20v2M2 15h2M2 9h2M20 15h2M20 9h2M9 2v2M9 20v2"/>',
+	layers: '<path d="m12 2 10 6-10 6L2 8z"/><path d="m2 14 10 6 10-6"/><path d="m2 20 10 6 10-6"/>',
+	briefcase:
+		'<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>',
+	award: '<circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/>',
+	badge: '<path d="M3.85 8.62a4 4 0 0 1 4.78-4.77 4 4 0 0 1 6.74 0 4 4 0 0 1 4.78 4.78 4 4 0 0 1 0 6.74 4 4 0 0 1-4.77 4.78 4 4 0 0 1-6.75 0 4 4 0 0 1-4.78-4.77 4 4 0 0 1 0-6.76Z"/><path d="m9 12 2 2 4-4"/>',
+	target: '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
+	book: '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
+	chart: '<line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/>',
+	mail: '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>',
+	phone: '<path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.9.34 1.78.66 2.63a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.45-1.23a2 2 0 0 1 2.11-.45c.85.32 1.73.54 2.63.66a2 2 0 0 1 1.72 2Z"/>',
+} as const;
 ---
 
 <html lang="en">
 	<head>
-		<meta charset="utf-8" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<style>
-			html,
-			body {
-				font-family: system-ui;
-				margin: 0;
-			}
-			body {
-				padding: 2rem;
-			}
-		</style>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>{NAME} - Data Engineer</title>
+		<meta
+			name="description"
+			content="Data Engineer building ETL/ELT pipelines and data models from scratch on AWS/Azure, plus LLM/RAG systems, across banking, pharma, and life sciences."
+		/>
+		<meta
+			name="keywords"
+			content="data engineer, data platform, ETL, ELT, PySpark, AWS, Azure, LLM, RAG, LangChain, data pipelines, data modeling, big data, data quality"
+		/>
+		<meta property="og:title" content="{NAME} - Data Engineer" />
+		<meta
+			property="og:description"
+			content="3+ years designing ETL/ELT pipelines and data models from scratch, plus LLM/RAG systems, for banking, pharma, and life sciences."
+		/>
+		<meta property="og:type" content="website" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+			rel="stylesheet"
+		/>
 	</head>
 	<body>
+		<Header client:load />
+		<GoogleTranslate />
+
 		<main>
-			<Counter client:visible>
-				<h1>Hello, Vue!</h1>
-			</Counter>
+			<Hero
+				client:load
+				name={NAME}
+				role="Data Engineer"
+				location="Bogotá, Colombia · remote-friendly"
+				headline="Robust data engineering and scalable pipelines from ingestion to analytics."
+				why="I'm a data engineer in Bogotá. I design ETL pipelines and data models from scratch - diagrams, schemas, and all - for banking and pharma clients, and I build RAG systems that answer from company data instead of model memory."
+				resumeUrl={RESUME_URL}
+				linkedinUrl={LINKEDIN_URL}
+				email={EMAIL}
+				currentCompany="Inetum"
+				currentPosition="Data Engineer"
+				showPlot={false}
+			/>
+
+			<section class="section section-animate" id="lineage">
+				<div class="wrap">
+					<div class="masthead">
+						<span class="masthead-icon" aria-hidden="true">
+							<svg
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="1.8"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								set:html={sectionIcons.activity}
+							/>
+						</span>
+						<div class="masthead-copy">
+							<h2 class="masthead-title">Pipeline</h2>
+							<p class="masthead-sub">one run, stage by stage</p>
+						</div>
+					</div>
+					<p class="section-sub">
+						The same five-stage shape I design and run for banking
+						and pharma clients. Click a stage to follow one job from
+						bronze to silver to gold.
+					</p>
+					<PipelineShowcase client:visible />
+				</div>
+			</section>
+
+			<section class="section section-animate" id="experience">
+				<div class="wrap">
+					<div class="masthead">
+						<span class="masthead-icon" aria-hidden="true">
+							<svg
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="1.8"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								set:html={sectionIcons.route}
+							/>
+						</span>
+						<div class="masthead-copy">
+							<h2 class="masthead-title">Experience</h2>
+						</div>
+					</div>
+					<ExperienceTimeline client:visible roles={roles} />
+				</div>
+			</section>
+
+			<section class="section section-animate" id="architecture">
+				<div class="wrap">
+					<div class="masthead">
+						<span class="masthead-icon" aria-hidden="true">
+							<svg
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="1.8"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								set:html={sectionIcons.cpu}
+							/>
+						</span>
+						<div class="masthead-copy">
+							<h2 class="masthead-title">Architecture</h2>
+							<p class="masthead-sub">
+								the calls, and what they cost
+							</p>
+						</div>
+					</div>
+					<ArchitectureDecisions client:visible />
+				</div>
+			</section>
+
+			<section class="section section-animate" id="skills">
+				<div class="wrap">
+					<div class="masthead">
+						<span class="masthead-icon" aria-hidden="true">
+							<svg
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="1.8"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								set:html={sectionIcons.target}
+							/>
+						</span>
+						<div class="masthead-copy">
+							<h2 class="masthead-title">Skills</h2>
+							<p class="masthead-sub">
+								shipped, not just touched
+							</p>
+						</div>
+					</div>
+					<p class="section-sub">
+						From daily drivers to tools I've spun up in production or tested hands-on.
+					</p>
+					<SkillsMatrix client:visible groups={skillGroups} />
+				</div>
+			</section>
+
+			<section class="section section-animate" id="certifications">
+				<div class="wrap">
+					<div class="masthead">
+						<span class="masthead-icon" aria-hidden="true">
+							<svg
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="1.8"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								set:html={sectionIcons.badge}
+							/>
+						</span>
+						<div class="masthead-copy">
+							<h2 class="masthead-title">Certifications</h2>
+							<p class="masthead-sub">
+								credentials & the work that earned them
+							</p>
+						</div>
+					</div>
+					<p class="section-sub">
+						Vendor certifications, training, and the AI & governance
+						seminar at the Universidad de Chile.
+					</p>
+					<Certifications
+						client:visible
+						certifications={certifications}
+					/>
+				</div>
+			</section>
+
+			<section class="section section-animate" id="education">
+				<div class="wrap">
+					<div class="masthead">
+						<span class="masthead-icon" aria-hidden="true">
+							<svg
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="1.8"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								set:html={sectionIcons.book}
+							/>
+						</span>
+						<div class="masthead-copy">
+							<h2 class="masthead-title">Education</h2>
+							<p class="masthead-sub">degrees & languages</p>
+						</div>
+					</div>
+					<p class="section-sub">
+						A software engineering bachelor's in progress, built on
+						the SENA programs where I started. I work in Spanish and
+						English.
+					</p>
+					<Education
+						client:visible
+						education={education}
+						languages={languages}
+					/>
+				</div>
+			</section>
+
+			<section class="section section-animate" id="case-studies">
+				<div class="wrap">
+					<div class="masthead">
+						<span class="masthead-icon" aria-hidden="true">
+							<svg
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="1.8"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								set:html={sectionIcons.briefcase}
+							/>
+						</span>
+						<div class="masthead-copy">
+							<h2 class="masthead-title">Projects</h2>
+							<p class="masthead-sub">
+								real architectures, measured outcomes
+							</p>
+						</div>
+					</div>
+					<p class="section-sub">
+						Work I've shipped in production - the stack each one
+						runs, and the number it moved.
+					</p>
+					<Projects client:visible items={caseStudies} />
+				</div>
+			</section>
+
+			<section class="section section-animate" id="writing">
+				<div class="wrap">
+					<div class="masthead">
+						<span class="masthead-icon" aria-hidden="true">
+							<svg
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="1.8"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								set:html={sectionIcons.book}
+							/>
+						</span>
+						<div class="masthead-copy">
+							<h2 class="masthead-title">Field Notes</h2>
+							<p class="masthead-sub">notes between commits</p>
+						</div>
+					</div>
+					<p class="section-sub">
+						Pipelines, Linux, and the tutorials I keep coming back to -
+						written when the compiler gives me a minute.
+					</p>
+					<FieldNotes client:visible />
+				</div>
+			</section>
+
+			<section class="section section-animate" id="worldskills">
+				<div class="wrap">
+					<div class="masthead">
+						<span class="masthead-icon" aria-hidden="true">
+							<svg
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="1.8"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								set:html={sectionIcons.award}
+							/>
+						</span>
+						<div class="masthead-copy">
+							<h2 class="masthead-title">WorldSkills</h2>
+							<p class="masthead-sub">
+								Lyon 2024 · ranked #1 in Colombia
+							</p>
+						</div>
+					</div>
+					<WorldSkills
+						client:visible
+						images={wsGallery}
+						videoSrc="/worldskills/video_andres_worldskills.mp4"
+						videoPoster={wsPoster}
+					/>
+				</div>
+			</section>
+
+			<section class="section section-animate" id="awards">
+				<div class="wrap">
+					<div class="masthead">
+						<span class="masthead-icon" aria-hidden="true">
+							<svg
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="1.8"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								set:html={sectionIcons.award}
+							/>
+						</span>
+						<div class="masthead-copy">
+							<h2 class="masthead-title">Awards</h2>
+							<p class="masthead-sub">the run that led to Lyon</p>
+						</div>
+					</div>
+					<p class="section-sub">
+						Back-to-back national titles, then the international
+						stage. The competition record behind the WorldSkills
+						gallery above.
+					</p>
+					<Awards client:visible awards={awards} />
+				</div>
+			</section>
+
+			<section class="section section-animate" id="wakatime">
+				<div class="wrap">
+					<div class="masthead">
+						<span class="masthead-icon" aria-hidden="true">
+							<svg
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="1.8"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								set:html={sectionIcons.chart}
+							/>
+						</span>
+						<div class="masthead-copy">
+							<h2 class="masthead-title">Coding activity</h2>
+							<p class="masthead-sub">live from WakaTime</p>
+						</div>
+					</div>
+					<WakatimeStats client:visible />
+				</div>
+			</section>
+
+			<section class="section section-animate" id="contact">
+				<div class="wrap">
+					<div class="masthead">
+						<span class="masthead-icon" aria-hidden="true">
+							<svg
+								viewBox="0 0 24 24"
+								fill="none"
+								stroke="currentColor"
+								stroke-width="1.8"
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								set:html={sectionIcons.mail}
+							/>
+						</span>
+						<div class="masthead-copy">
+							<h2 class="masthead-title">Contact</h2>
+							<p class="masthead-sub">
+								say hi, or talk about a role
+							</p>
+						</div>
+					</div>
+					<p class="section-sub">
+						Open to data engineering, cloud migration, and AI/RAG
+						work. Send a message or use a channel below.
+					</p>
+					<Contact
+						client:visible
+						email={EMAIL}
+						links={contactLinks}
+					/>
+				</div>
+			</section>
 		</main>
+
+		<Footer />
+
+		<script>
+			// Scroll-triggered reveal
+			const observer = new IntersectionObserver(
+				(entries) => {
+					entries.forEach((entry) => {
+						if (entry.isIntersecting) {
+							requestAnimationFrame(() => {
+								entry.target.classList.add("revealed");
+							});
+							observer.unobserve(entry.target);
+						}
+					});
+				},
+				{
+					threshold: 0.12,
+					rootMargin: "0px 0px -40px 0px",
+				},
+			);
+
+			document
+				.querySelectorAll(".reveal, .section-animate")
+				.forEach((el) => {
+					observer.observe(el);
+				});
+		</script>
 	</body>
 </html>
+
+<style is:global>
+	.section {
+		padding: var(--section-pad) 0;
+	}
+
+	.section-sub {
+		font-size: 15px;
+		color: var(--text-2);
+		max-width: 640px;
+		line-height: 1.65;
+		margin: 0;
+	}
+</style>

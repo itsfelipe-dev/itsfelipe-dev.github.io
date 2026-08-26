@@ -1,0 +1,124 @@
+---
+// Google Translate widget — English → Spanish.
+// Pure client-side; works on fully static hosting (GitHub Pages).
+// Rendered outside the Vue components so Google's DOM updates never
+// conflict with Vue re-renders.
+// The pill shows a globe icon instead of Google's "Select language"
+// text; the dropdown still opens on click.
+---
+
+<div class="gt-widget" aria-label="Change language">
+	<div id="google_translate_element"></div>
+</div>
+
+<script is:inline>
+	const GLOBE_SVG =
+		'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.5 2.6 3.8 5.7 3.8 9s-1.3 6.4-3.8 9c-2.5-2.6-3.8-5.7-3.8-9S9.5 5.6 12 3z"/></svg>';
+
+	function styleTranslateLink() {
+		const link = document.querySelector('.gt-widget .goog-te-gadget-simple a');
+		if (!link) return;
+		link.setAttribute('aria-label', 'Change language');
+		link.setAttribute('title', 'Change language');
+		for (const child of [...link.children]) child.remove();
+		link.insertAdjacentHTML(
+			'afterbegin',
+			GLOBE_SVG + '<span class="gt-label">Idioma</span>',
+		);
+	}
+
+	function googleTranslateElementInit() {
+		new google.translate.TranslateElement(
+			{
+				pageLanguage: 'en',
+				includedLanguages: 'en,es',
+				layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
+				autoDisplay: false,
+			},
+			'google_translate_element',
+		);
+		styleTranslateLink();
+	}
+</script>
+<script
+	is:inline
+	src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
+	async
+></script>
+
+<style is:global>
+	.gt-widget {
+		position: fixed;
+		top: 84px;
+		right: clamp(16px, 4vw, 40px);
+		z-index: 90;
+		font-family: var(--font-body);
+	}
+
+	.gt-widget .goog-te-gadget {
+		font-family: var(--font-body);
+		font-size: 12px;
+		line-height: 1;
+	}
+
+	.gt-widget .goog-te-gadget-simple {
+		display: inline-flex;
+		background: transparent;
+		border: 0;
+		padding: 0;
+	}
+
+	.gt-widget .goog-te-gadget-simple a {
+		display: inline-flex;
+		align-items: center;
+		gap: 7px;
+		padding: 9px 14px;
+		border-radius: var(--radius-full);
+		border: 1px solid var(--line-strong);
+		background: var(--ink-1);
+		box-shadow: var(--shadow-soft);
+		color: var(--text-1);
+		transition: border-color 0.18s var(--ease-out), color 0.18s var(--ease-out),
+			transform 0.18s var(--ease-out);
+	}
+
+	.gt-widget .goog-te-gadget-simple a:hover {
+		border-color: var(--accent-warm);
+		color: var(--text-0);
+		transform: translateY(-1px);
+	}
+
+	.gt-widget .goog-te-gadget-simple a svg {
+		width: 20px;
+		height: 20px;
+		display: block;
+	}
+
+	.gt-widget .goog-te-gadget-simple a .gt-label {
+		font-size: 12px;
+		font-weight: 600;
+		letter-spacing: 0.02em;
+		color: inherit;
+	}
+
+	.gt-widget .goog-te-gadget-simple img,
+	.gt-widget .goog-te-combo {
+		display: none;
+	}
+
+	/* Hide Google's top translation banner and neutralise the
+	   `body { top: Npx }` offset it injects when translating. */
+	.goog-te-banner-frame {
+		display: none !important;
+	}
+	body {
+		top: 0 !important;
+	}
+
+	@media (max-width: 420px) {
+		.gt-widget {
+			top: 78px;
+			right: 12px;
+		}
+	}
+</style>
